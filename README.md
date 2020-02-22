@@ -21,6 +21,7 @@ You might be wondering at this point, why don't you just run `ansible-galaxy upd
 
   - This has only been tested with `geerlingguy.*` roles, and a few others which follow semantic versioning standards. Since Galaxy allows practically anything as a version (heck, you could probably throw a 🦑 in there and it would work), the playbook will likely break your requirements in new and interesting ways if you use roles that do strange things with versioning.
   - This playbook only handles requirements files with `roles` in them, not with `roles` and `collections`. If you have any `collections` listed in your requirements file, this playbook will act like they don't exist and they will go 💥.
+    - Maybe this playbook will support collections someday, maybe not. Buy my book and I'll be at least 0.0002% more likely to fix [issue #1](https://github.com/geerlingguy/ansible-requirements-updater/issues/1).
   - You should never write a playbook like this. It is dumb. It is inefficient. It is against every one of the best practices I espouse in my book [Ansible for DevOps](https://www.ansiblefordevops.com) and my blog posts on Ansible. But I did, so 🤷‍♂️.
 
 ## Usage
