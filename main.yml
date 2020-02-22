@@ -21,7 +21,7 @@
         var: requirements
         verbosity: 2
 
-    - include_tasks: update-requirement.yml
+    - include_tasks: tasks/update-requirement.yml
       loop: "{{ requirements.roles }}"
       loop_control:
         loop_var: role_info
