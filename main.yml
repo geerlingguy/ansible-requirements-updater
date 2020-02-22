@@ -1,0 +1,41 @@
+---
+- hosts: localhost
+  gather_facts: false
+  connection: local
+
+  vars:
+    requirements_file_path: ../requirements.yml
+    requirements_file_backup: true
+
+    # Don't touch this variable. It's for the updated requirements list.
+    requirements_updated: []
+
+  tasks:
+    - name: Get all requirements from the requirements file.
+      include_vars:
+        file: "{{ requirements_file_path }}"
+        name: requirements
+
+    - name: Debug existing requirements list.
+      debug:
+        var: requirements
+        verbosity: 2
+
+    - include_tasks: update-requirement.yml
+      loop: "{{ requirements.roles }}"
+      loop_control:
+        loop_var: role_info
+
+    - name: Debug updated requirement list.
+      debug:
+        var: requirements_updated
+        verbosity: 2
+
+    - name: Write the updated requirements.yml file.
+      copy:
+        content: |
+          ---
+          roles:
+            {{ requirements_updated | to_nice_yaml(indent=2) | trim | indent(2) }}
+        dest: "{{ requirements_file_path }}"
+        backup: "{{ requirements_file_backup }}"

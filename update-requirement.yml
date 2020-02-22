@@ -1,0 +1,48 @@
+---
+# There might be a more direct route to this information via the Galaxy API, but
+# this works, and so far I don't notice any rate-limiting going on.
+- name: Get information about role via ansible-galaxy CLI.
+  shell: >
+    ansible-galaxy role info {{ role_info.name }} | grep -E 'id: [0-9]' | awk {'print $2'}
+  register: galaxy_result
+
+- name: Set ID.
+  set_fact:
+    galaxy_id: "{{ galaxy_result.stdout }}"
+
+- name: Get role versions.
+  uri:
+    url: "https://galaxy.ansible.com/api/v1/roles/{{ galaxy_id }}/"
+    return_content: true
+  register: role_metadata
+
+- name: Set versions as fact.
+  set_fact:
+    role_versions: "{{ (role_metadata.content | from_json).summary_fields.versions }}"
+
+# Note: This is a pretty fragile sort. It works for strict semver... mostly, but
+# it might not work with more complex use cases, and Galaxy kind of allows
+# anything in the version field, so YMMV. It works with geerlingguy.* roles.
+- name: Use the ugliest hack in the world to find the highest version.
+  set_fact:
+    highest_role_version: >-
+      {%- for version_data in role_versions | sort(attribute='name', reverse=True) -%}
+        {%- if loop.first -%}
+          {{ version_data.name }}
+        {%- endif -%}
+      {%- endfor -%}
+
+- name: Set up the dict to be added to requirements_updated.
+  set_fact:
+    requirements_role_data:
+      - name: "{{ role_info.name }}"
+        version: "{{ highest_role_version }}"
+
+- name: Debug the information for this role.
+  debug:
+    var: requirements_role_data
+    verbosity: 2
+
+- name: Combine this role back into the requirements_updated var.
+  set_fact:
+    requirements_updated: "{{ requirements_updated | union(requirements_role_data) }}"
