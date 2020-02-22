@@ -1,6 +1,6 @@
 # Ansible Requirements Updater
 
-**Update your requirements.yml with this unsightly Ansible playbook.**
+**Update your requirements.yml with this grisly Ansible playbook.**
 
 This is one of the gookiest Ansible playbooks I've ever written.
 
