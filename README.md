@@ -26,6 +26,19 @@ You might be wondering at this point: "Why doesn't geerlingguy just run `ansible
 
 ## Usage
 
+Let's assume you have a requirements file (`requirements.yml`) with contents like:
+
+```yaml
+---
+roles:
+  - name: geerlingguy.ansible
+    version: 1.2.0
+  - name: geerlingguy.certbot
+    version: 3.0.0
+  - name: geerlingguy.docker
+    version: 2.1.0
+```
+
 Run the playbook like so:
 
     ansible-playbook main.yml -e "requirements_file_path=path/to/a/requirements.yml"
@@ -35,6 +48,8 @@ Go get a coffee (☕️) – it's going to take a while because of how horrifica
 Cross your fingers (🤞) and hope it works.
 
 > **Note**: It is _highly_ recommended you track your `requirements.yml` file in a git repository. That way if this playbook mangles it horrifically, you can `git restore requirements.yml` and act like nothing happened 🤐.
+>
+> If you're feeling particularly daring 🦹‍♂️, add `-e "requirements_file_backup=false"` to overwrite the file without creating a backup.
 
 ## License
 
