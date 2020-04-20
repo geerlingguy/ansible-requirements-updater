@@ -15,7 +15,7 @@ The playbook does the following:
 
 If you're really daring and had a few drinks, you can set `requirements_file_backup` to `false`, and overwrite your artisinally-handcrafted requirements file with whatever this playbook disgorges 🤮.
 
-You might be wondering at this point: "Why doesn't geerlingguy just run `ansible-galaxy update -r requirements.yml`?" Well, unfortunately, [`update` is not a thing](https://github.com/ansible/galaxy/issues/1358), and might never be, for roles on Ansible Galaxy. Collections _might_ someday get that functionality (so we can stop updating our `requirements.yml` files by hand like neanderthals), but until then, you can do it manually, or trust your life to this playbook. I know what _I'd_ do.
+You might be wondering at this point: "Why doesn't geerlingguy just run `ansible-galaxy update -r requirements.yml`?" Well, unfortunately, [`update` is not a thing](https://github.com/ansible/galaxy/issues/1358), and might never be, for roles on Ansible Galaxy. Collections [_might_](https://github.com/ansible/ansible/issues/65699) someday get that functionality (so we can stop updating our `requirements.yml` files by hand like neanderthals), but until then, you can do it manually, or trust your life to this playbook. I know what _I'd_ do.
 
 ## Caveats
 
@@ -48,8 +48,6 @@ Go get a coffee (☕️) – it's going to take a while because of how horrifica
 Cross your fingers (🤞) and hope it works.
 
 > **Note**: It is _highly_ recommended you track your `requirements.yml` file in a git repository. That way if this playbook mangles it horrifically, you can `git restore requirements.yml` and act like nothing happened 🤐.
->
-> If you're feeling particularly daring 🦹‍♂️, add `-e "requirements_file_backup=false"` to overwrite the file without creating a backup.
 
 ## License
 
