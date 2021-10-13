@@ -26,9 +26,10 @@
 - name: Use the ugliest hack in the world to find the highest version.
   set_fact:
     highest_role_version: >-
-      {%- for version_data in role_versions | sort(attribute='name', reverse=True) -%}
+      {%- for version_data in role_versions | sort(attribute='id', reverse=True) -%}
         {%- if loop.first -%}
           {{ version_data.name }}
+          {% break %}
         {%- endif -%}
       {%- endfor -%}
 
